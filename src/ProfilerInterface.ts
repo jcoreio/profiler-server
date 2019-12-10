@@ -1,8 +1,17 @@
 import { Stream, Transform } from 'stream'
 
 export interface Profiler {
+  /**
+   * Starts the profiler with a new profile.
+   * @param name Name for the profile. "undefined" if not defined.
+   * @param recsamples Is true by default.
+   */
   startProfiling(recsamples?: boolean): void
   startProfiling(name?: string, recsamples?: boolean): void
+  /**
+   * Stops the profiler for a specific profile.
+   * @param name Name of the profile. "undefined" if not defined.
+   */
   stopProfiling(name?: string): Profile
   deleteAllProfiles(): void
   startSamplingHeapProfiling(): void
@@ -21,6 +30,7 @@ export interface Profile {
    */
   export(dataReceiver?: Stream): Transform
   export(dataReceiver: DataReceiver): void
+  delete(): void
 }
 
 /**

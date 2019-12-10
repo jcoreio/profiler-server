@@ -8,8 +8,9 @@
     "lint": "eslint $npm_package_config_lint",
     "lint:fix": "eslint $npm_package_config_lint",
     "lint:watch": "esw --watch $npm_package_config_lint",
-    "prettier": "prettier --write .babelrc.js *.json *.md *.ts '{src,test}/**/*.{js,ts}'",
-    "prettier:check": "prettier --list-different .babelrc.js *.json *.md *.ts '{src,test}/**/*.{js,ts}'",
+    "prettier": "prettier --write .babelrc.js *.json *.md *.ts '{src,test}/**/*.{js,ts,js.flow}'",
+    "prettier:check": "prettier --list-different .babelrc.js *.json *.md *.ts '{src,test}/**/*.{js,ts,js.flow}'",
+    "flow": "flow",
     "tsc": "tsc --noEmit",
     "tsc:watch": "npm run tsc -- --watch",
     "clean": "rimraf es lib $(cd src; ls) *.js *.d.ts",
@@ -20,7 +21,7 @@
     "test:watch": "cross-env NODE_ENV=test BABEL_ENV=test mocha $npm_package_config_mocha --watch --watch-extensions js,ts",
     "test:debug": "cross-env NODE_ENV=test BABEL_ENV=test mocha --inspect-brk $npm_package_config_mocha",
     "codecov": "nyc report --reporter=text-lcov > coverage.lcov; codecov",
-    "prepublishOnly": "npm run clean && npm run prettier:check && npm run lint && npm test && npm run build",
+    "prepublishOnly": "npm run clean && npm run prettier:check && npm run lint && npm run flow && npm test && npm run build",
     "open:coverage": "open coverage/lcov-report/index.html",
     "semantic-release": "semantic-release"
   },
@@ -39,7 +40,7 @@
     }
   },
   "lint-staged": {
-    "*.{js,ts,json,css,md}": [
+    "*.{js,ts,json,css,md,js.flow}": [
       "prettier --write",
       "git add"
     ]
@@ -100,11 +101,11 @@
     "@jedwards1211/commitlint-config": "^1.0.0",
     "@jedwards1211/eslint-config": "^2.0.0",
     "@types/chai": "^4.2.0",
-    "@types/chai-as-promised": "^7.1.2",
     "@types/express": "^4.17.2",
     "@types/fs-extra": "^8.0.1",
     "@types/mocha": "^5.2.7",
     "@types/node": "^12.12.6",
+    "@types/supertest": "^2.0.8",
     "@typescript-eslint/eslint-plugin": "^2.6.1",
     "@typescript-eslint/parser": "^2.6.1",
     "@typescript-eslint/typescript-estree": "^2.6.1",
@@ -117,6 +118,7 @@
     "eslint": "^5.9.0",
     "eslint-config-prettier": "^3.3.0",
     "eslint-watch": "^4.0.2",
+    "flow-bin": "^0.113.0",
     "husky": "^1.1.4",
     "istanbul": "^0.4.5",
     "lint-staged": "^8.0.4",
@@ -126,12 +128,12 @@
     "prettier-eslint": "^8.8.2",
     "rimraf": "^2.6.0",
     "semantic-release": "^15.1.4",
+    "supertest": "^4.0.2",
     "typescript": "^3.7.2",
     "v8-profiler-next": "^1.2.0"
   },
   "dependencies": {
     "@babel/runtime": "^7.1.5",
-    "chai-as-promised": "^7.1.1",
     "express": "^4.17.1",
     "fs-extra": "^8.1.0",
     "p-event": "^4.1.0"
