@@ -2,11 +2,12 @@ import express from 'express'
 import { Profiler } from './ProfilerInterface'
 import emitted from 'p-event'
 
-export default function ProfilerRouter({
-  profiler,
-}: {
+export default function ProfilerRouter(options: {
   profiler: Profiler
+  maxDurationMillis?: number | null
 }): express.Router {
+  const { profiler } = options
+  const maxDurationMillis = options.maxDurationMillis || 5 * 60000
   const router = express.Router()
 
   let cpuProfileEndTime = NaN
@@ -17,7 +18,16 @@ export default function ProfilerRouter({
     async (req: express.Request, res: express.Response): Promise<void> => {
       const durationMillis = parseInt(req.query.durationMillis)
       if (!Number.isFinite(durationMillis)) {
-        res.status(400).send(`durationMillis query parameter must be a number`)
+        res
+          .status(400)
+          .send({ error: `durationMillis query parameter must be a number` })
+        return
+      }
+      if (durationMillis > maxDurationMillis) {
+        res
+          .status(400)
+          .send({ error: `durationMillis must be <= ${maxDurationMillis}` })
+        return
       }
       if (isCPUProfileInProgress) {
         // Send the "I'm a Teapot" HTTP code

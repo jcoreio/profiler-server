@@ -23,14 +23,24 @@ describe('ProfilerRouter', function() {
       expect(content.body.typeId).to.equal('CPU')
     })
     it('errors if durationMillis is missing', async function(): Promise<void> {
-      request(app)
+      const content = await request(app)
         .get('/cpu')
-        .expect(500)
+        .expect(400)
+      expect(content.body.error).to.match(/durationMillis.*must be a number/)
     })
     it('errors if durationMillis is invalid', async function(): Promise<void> {
-      request(app)
+      const content = await request(app)
         .get('/cpu?durationMillis=a')
-        .expect(500)
+        .expect(400)
+      expect(content.body.error).to.match(/durationMillis.*must be a number/)
+    })
+    it('errors if durationMillis is above limit', async function(): Promise<
+      void
+    > {
+      const content = await request(app)
+        .get('/cpu?durationMillis=900000')
+        .expect(400)
+      expect(content.body.error).to.match(/durationMillis.*must be <= 300000/)
     })
     it('errors if a profile is in progress', async function(): Promise<void> {
       request(app)

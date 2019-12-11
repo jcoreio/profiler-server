@@ -10,7 +10,7 @@ REST server for running v8-profiler and downloading snapshots
 
 # API
 
-## `ProfilerRouter({ profiler: Profiler })`
+## `ProfilerRouter({ profiler: Profiler, maxDurationMillis?: number | null })`
 
 ```js
 import { ProfilerRouter } from '@jcoreio/profiler-server'
@@ -30,6 +30,11 @@ If a CPU profile is already in progress, responds with 418.
 ### `GET /heap`
 
 Takes a heap snapshot and sends it in the response.
+
+### Options
+
+- `profiler: Profiler` (**required**) - the profiler to use, for example `require('v8-profiler-next')`
+- `maxDurationMillis: number` (_optional_, default: 5 minutes) - the maximum cpu profile duration to allow
 
 ### Example
 
