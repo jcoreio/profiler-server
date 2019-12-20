@@ -45,3 +45,17 @@ import express from 'express'
 const app = express()
 app.use(ProfilerRouter({ profiler }))
 ```
+
+### `GET /sampleHeapProfiling?durationMillis=<integer>`
+
+Profiles heap sampling for `durationMillis` milliseconds, and sends the profile in the response.
+**You must set the timeout of the client request to more than `durationMillis`** or the request
+will time out.
+
+If a heap sampling profile is already in progress, responds with 418.
+
+#### Query parameters
+
+- `durationMillis` (**required**) the amount of time to profile in milliseconds
+- `interval` (**optional**) the sampling interval, in milliseconds (has no effect unless `depth` is also given)
+- `depth` (**optional**) the sampling depth (has no effect unless `interval` is also given)

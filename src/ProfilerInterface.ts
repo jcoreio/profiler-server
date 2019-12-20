@@ -12,15 +12,15 @@ export interface Profiler {
    * Stops the profiler for a specific profile.
    * @param name Name of the profile. "undefined" if not defined.
    */
-  stopProfiling(name?: string): Profile
+  stopProfiling(name?: string): DeletableProfile
   deleteAllProfiles(): void
   startSamplingHeapProfiling(): void
   startSamplingHeapProfiling(interval: number, depth: number): void
   stopSamplingHeapProfiling(): Profile
   startTrackingHeapObjects(): void
   stopTrackingHeapObjects(): void
-  takeSnapshot(control?: Function): Profile
-  takeSnapshot(name?: string, control?: Function): Profile
+  takeSnapshot(control?: Function): DeletableProfile
+  takeSnapshot(name?: string, control?: Function): DeletableProfile
 }
 
 export interface Profile {
@@ -30,6 +30,9 @@ export interface Profile {
    */
   export(dataReceiver?: Stream): Transform
   export(dataReceiver: DataReceiver): void
+}
+
+export interface DeletableProfile extends Profile {
   delete(): void
 }
 

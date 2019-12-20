@@ -64,4 +64,13 @@ describe('ProfilerRouter', function() {
       expect(content.body.snapshot).to.be.an.instanceOf(Object)
     })
   })
+  describe('/sampleHeapProfiling', function() {
+    it('works', async function(): Promise<void> {
+      const content = await request(app)
+        .get('/sampleHeapProfiling?durationMillis=2000')
+        .expect('Content-Type', 'application/json; charset=utf-8')
+        .expect(200)
+      expect(content.body.head).to.be.an.instanceOf(Object)
+    })
+  })
 })
