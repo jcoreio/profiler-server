@@ -19,18 +19,6 @@ import { ProfilerRouter } from '@jcoreio/profiler-server'
 Creates an [ExpressJS Router](https://devdocs.io/express/index#express.router) that handles
 the following routes:
 
-### `GET /cpu?durationMillis=<integer>`
-
-Profiles the CPU for `durationMillis` milliseconds, and sends the CPU profile in the response.
-**You must set the timeout of the client request to more than `durationMillis`** or the request
-will time out.
-
-If a CPU profile is already in progress, responds with 418.
-
-### `GET /heap`
-
-Takes a heap snapshot and sends it in the response.
-
 ### Options
 
 - `profiler: Profiler` (**required**) - the profiler to use, for example `require('v8-profiler-next')`
@@ -46,6 +34,18 @@ const app = express()
 app.use(ProfilerRouter({ profiler }))
 ```
 
+### `GET /cpu?durationMillis=<integer>`
+
+Profiles the CPU for `durationMillis` milliseconds, and sends the CPU profile in the response.
+**You must set the timeout of the client request to more than `durationMillis`** or the request
+will time out.
+
+If a CPU profile is already in progress, responds with 418.
+
+### `GET /heap`
+
+Takes a heap snapshot and sends it in the response.
+
 ### `GET /sampleHeapProfiling?durationMillis=<integer>`
 
 Profiles heap sampling for `durationMillis` milliseconds, and sends the profile in the response.
@@ -59,3 +59,7 @@ If a heap sampling profile is already in progress, responds with 418.
 - `durationMillis` (**required**) the amount of time to profile in milliseconds
 - `interval` (**optional**) the sampling interval, in milliseconds (has no effect unless `depth` is also given)
 - `depth` (**optional**) the sampling depth (has no effect unless `interval` is also given)
+
+### `GET /gc`
+
+Runs the garbage collector.

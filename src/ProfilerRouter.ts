@@ -119,5 +119,11 @@ export default function ProfilerRouter(options: {
     )
   )
 
+  router.get('/gc', (req: express.Request, res: express.Response) => {
+    const gc = require('expose-gc/function') // eslint-disable-line  @typescript-eslint/no-var-requires
+    gc()
+    res.status(200).send()
+  })
+
   return router
 }

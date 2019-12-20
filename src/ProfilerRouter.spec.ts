@@ -73,4 +73,11 @@ describe('ProfilerRouter', function() {
       expect(content.body.head).to.be.an.instanceOf(Object)
     })
   })
+  describe('/gc', function() {
+    it('works', async function(): Promise<void> {
+      await request(app)
+        .get('/gc')
+        .expect(200)
+    })
+  })
 })
